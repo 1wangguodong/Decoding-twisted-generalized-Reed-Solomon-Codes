@@ -1,0 +1,185 @@
+
+/*
+    input:
+    ll 码长
+    k 码的维数
+    sr 接收到的向量
+    output:
+    ree 错误向量
+*/
+function EEADecoding(t, SX, hd, A, W, ff)
+    
+    rxl := [x^t, SX];
+
+    sxl := [1, 0, x];
+    txl := [0, 1, x];
+    qxl := [x];
+    Prune(~sxl);
+    Prune(~txl);
+    Prune(~qxl);
+    // EuclideanLeftDivision(D, N)
+    tar1x := 0;
+    tar2x := 0;
+    i := 1;
+    s := 0;
+    // "Begin Decoding:";
+    repeat
+        qxl[i] := rxl[i] div rxl[i+1];
+        rxl[i+2] := rxl[i] mod rxl[i+1];
+        sxl[i+2] := sxl[i] - qxl[i]*sxl[i+1];
+        txl[i+2] := txl[i] - qxl[i]*txl[i+1];
+        if Degree(rxl[i+2]) lt hd and Degree(rxl[i+1]) ge hd then
+            tar1x := rxl[i+2];
+            tar2x := txl[i+2];
+            s := i+2;
+            break;
+        end if;
+        i := i+1;
+    until rxl[i+1] eq 0;
+
+   
+
+    Ree := [w];
+    Prune(~Ree);
+    for a in A do
+        ev1 := Evaluate(txl[s-1], a);
+        ev2 := Evaluate(txl[s], a);
+        if ev1 ne 0 then
+            val := ev1^(-1)*ev2;
+            Append(~Ree, val);
+        else
+            if ev2 eq 0 then
+                "any";
+            end if;
+        end if;
+    end for;
+    // "Ree",Ree;
+    mp := AssociativeArray();
+
+    for x in Ree do
+        mp[x] := 0;
+    end for;
+
+    mpk := Keys(mp);
+
+    mos := [w];
+    Prune(~mos);
+
+    for x in Ree do
+        mp[x] := mp[x] + 1;
+    end for;
+    con := 0;
+    for x in mpk do
+        if mp[x] gt con then
+            con := mp[x];
+        end if;
+    end for;
+    for x in mpk do
+        if mp[x] eq con then
+            Append(~mos, x);
+        end if;
+    end for;
+    // 频率最高
+    // mos;
+
+    for el in mos do
+        fx1 := txl[s] + el * txl[s-1];
+        fx2 := rxl[s] + el * rxl[s-1];
+        ree1 := [w];
+        Prune(~ree1);
+        tar3x := Derivative(fx1);
+        bb := 0;
+        for i:=1 to #A do
+            if Evaluate(fx1, A[i]) eq 0 then
+                // 这里要用W 因为 W是校验矩阵那个向量
+                ei := - ( Evaluate(fx2, A[i])) / (Evaluate(tar3x, A[i]) * W[1,i] * A[i]^t);
+                Append(~ree1, ei);
+                bb := bb + ei*W[1,i]*Evaluate(ff, A[i]);
+            else
+                Append(~ree1, 0);
+            end if;
+        end for;
+
+        if Coefficient(fx2, hd) eq bb*Coefficient(fx1, hd) then
+        // if LeadingCoefficient(fx2) eq bb*LeadingCoefficient(fx1) then
+            // "ok";
+            // ree1;
+            return ree1;
+        // else
+        //     "not ok";
+        end if;
+    end for;
+end function;
+
+
+
+function DecodingMethod1(t, SX, hd, A, W, ff)
+
+    rxl := [x^t, SX];
+
+    sxl := [1, 0, x];
+    txl := [0, 1, x];
+    qxl := [x];
+    Prune(~sxl);
+    Prune(~txl);
+    Prune(~qxl);
+    tar1x := 0;
+    tar2x := 0;
+    i := 1;
+    s := 0;
+    // "Begin Decoding:";
+    repeat
+        qxl[i] := rxl[i] div rxl[i+1];
+        rxl[i+2] := rxl[i] mod rxl[i+1];
+        sxl[i+2] := sxl[i] - qxl[i]*sxl[i+1];
+        txl[i+2] := txl[i] - qxl[i]*txl[i+1];
+        if Degree(rxl[i+2]) lt hd and Degree(rxl[i+1]) ge hd then
+            tar1x := rxl[i+2];
+            tar2x := txl[i+2];
+            s := i+2;
+            break;
+        end if;
+        i := i+1;
+    until rxl[i+1] eq 0;
+
+    for a in FF do
+        fx1 := txl[s] + a * txl[s-1];
+        fx2 := rxl[s] + a * rxl[s-1];
+        ree1 := [w];
+        Prune(~ree1);
+        tar3x := Derivative(fx1);
+        bb := 0;
+        num := 0;
+        for i:=1 to #A do
+            if Evaluate(fx1, A[i]) eq 0 and Evaluate(tar3x, A[i]) ne 0 then
+                // 这里要用W 因为 W是校验矩阵那个向量
+                ei := - ( Evaluate(fx2, A[i])) / (Evaluate(tar3x, A[i]) * W[1,i] * A[i]^t);
+                Append(~ree1, ei);
+                bb := bb + ei*W[1,i]*Evaluate(ff, A[i]);
+                num := num + 1;
+            else
+                Append(~ree1, 0);
+            end if;
+        end for;
+
+
+
+        // if a eq 0 then
+        if num eq hd and Coefficient(fx2, hd) eq bb*Coefficient(fx1, hd) then
+            // "decode:", ree1;
+            return ree1;
+        end if;
+        // else
+        //     if Degree(fx1) eq Degree(fx2) and Coefficient(fx2, hd) eq bb*Coefficient(fx1, hd) then
+        //         "decode:", ree1;
+        //         return ree1;
+        //     end if;
+            
+        // // else
+        // //     // ree1;
+        // //     "not ok";
+        // end if;
+    end for;
+end function;
+
+ 

@@ -1,0 +1,181 @@
+
+/*
+  Extended euclidean algorithm decoding GRS code
+*/
+size := 2^8;
+FF<w> := GF(size);
+FX<x> := PolynomialRing(FF);
+
+load "./Decoding.mag";
+
+load "./Func.mag";
+
+// load "./param1/param_10_6_5_1.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_10_6_5_2.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_10_6_5_3.mag";
+// load "./GenParamAndTest.mag";
+
+
+// load "./param1/param_10_6_5_4.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_10_6_5_5.mag";
+// load "./GenParamAndTest.mag";
+
+
+// load "./param1/param_10_6_5_6.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_11_5_7_1.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_11_5_7_2.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_11_5_7_3.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_11_5_7_4.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_11_5_7_5.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_12_6_7_1.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_12_6_7_2.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_12_6_7_3.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_12_6_7_4.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_12_6_7_5.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_12_6_7_6.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_1.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_2.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_3.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_4.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_5.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_6.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_7.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_8.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param1/param_13_9_5_9.mag";
+// load "./GenParamAndTest.mag";
+
+
+
+// load "./param2/param_10_6_5_1.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_10_6_5_2.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_10_6_5_3.mag";
+// load "./GenParamAndTest.mag";
+
+
+// load "./param2/param_10_6_5_4.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_10_6_5_5.mag";
+// load "./GenParamAndTest.mag";
+
+
+// load "./param2/param_10_6_5_6.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_11_5_7_1.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_11_5_7_2.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_11_5_7_3.mag";
+// load "./GenParamAndTest.mag";
+
+// load "./param2/param_11_5_7_4.mag";
+// load "./GenParamAndTest.mag";
+
+load "./param2/param_11_5_7_5.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_12_6_7_1.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_12_6_7_2.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_12_6_7_3.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_12_6_7_4.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_12_6_7_5.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_12_6_7_6.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_1.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_2.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_3.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_4.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_5.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_6.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_7.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_8.mag";
+load "./GenParamAndTest.mag";
+
+load "./param2/param_13_9_5_9.mag";
+load "./GenParamAndTest.mag";
+
+
+
+
+
+
+
+

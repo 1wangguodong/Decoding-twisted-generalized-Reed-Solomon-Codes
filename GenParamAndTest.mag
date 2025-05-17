@@ -1,0 +1,54 @@
+k := n-t; // 维数
+md := n - k + 1;
+
+G := Gen(n, k, ni, eta, A, V);
+md := checkMDS(G);
+ff := CheckPoly(n, k, ni, eta, A);
+W := CheckEvalPoint(n, A, V);
+H := CheckMatrix(n, k, A, W, ff);
+hd := Floor((md-1) / 2);
+
+"A:", A;
+"V:", V;
+"Twisted row:", ni;
+"eta:", eta;
+"G matrix:", G;
+"Minimum:", md;
+"Isdual:", Dual(LinearCode(H)) eq LinearCode(G);
+"check matrix ploy ff:", ff;
+"check matrix:", H;
+// // error number
+ec := hd;
+
+"DecodingMethod1 10000 repeat!";
+t1 := Cputime();
+for i :=1 to 10000 do
+        
+    ev := ErrorWord(n, ec, size);
+    sr := ReceivedCode(n, G, size, ev);
+    SX := SyndromePoly(n, k, H, sr);
+    ree1 := DecodingMethod1(t, SX, hd, A, W, ff - x^(t-1));
+    if ree1 ne ev then
+        ev;
+        ree1;
+        "DecodingMethod1 decoding failed!";
+    end if;
+end for;
+
+"Method1 time consume:", Cputime(t1);
+
+"EEADecoding 10000 repeat!";
+t2 := Cputime();
+for i :=1 to 10000 do
+    ev := ErrorWord(n, ec, size);
+    sr := ReceivedCode(n, G, size, ev);
+    SX := SyndromePoly(n, k, H, sr);
+    ree1 := EEADecoding(t, SX, hd, A, W, ff - x^(t-1));
+    if ree1 ne ev then
+        ev;
+        ree1;
+        "EEA decoding failed!";
+    end if;
+end for;
+
+"EEA time consume:", Cputime(t2);
